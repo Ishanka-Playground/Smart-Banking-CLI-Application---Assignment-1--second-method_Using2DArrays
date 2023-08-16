@@ -26,10 +26,8 @@ public class Assignment1 {
         String screen = DASHBOARD;
 
         // Arrays 
-
-        int[] idArray = new int[0];
-        double[] balanceArray = new double[0];
-        String[] nameArray = new String[0];
+        String [][] accountDetailsArray = new String[0][3]; // {{id,name,balance},{},{}}
+  
 
         //
         do {
@@ -80,9 +78,9 @@ public class Assignment1 {
                         // ID
                         valid = true;
                         
-                        if (idArray.length !=0) {
-                            System.out.printf("\tID: SDB-%05d ",idArray[idArray.length-1]+1); // automatic
-                            id = String.format("SDB-%05d", idArray[idArray.length-1]+1);
+                        if (accountDetailsArray.length !=0) {
+                            System.out.printf("\tID: SDB-%05d ",accountDetailsArray.length); // automatic
+                            id = String.format("SDB-%05d", accountDetailsArray.length);
                         }  
                         else {
                             System.out.printf("\tID: SDB-%05d ",1);
@@ -128,23 +126,24 @@ public class Assignment1 {
                     } while (!valid);
 
                     
-                    int[] newIdArray = new int[idArray.length+1];
-                    double[] newBalanceArray = new double[balanceArray.length + 1];
-                    String[] newNameArray = new String[nameArray.length + 1];
+                    String[][] newDetailsArray = new String[accountDetailsArray.length + 1][3];
 
-                    for (int i = 0; i < nameArray.length; i++) {
-                        newIdArray[i]=idArray[i];
-                        newNameArray[i] = nameArray[i];
-                        newBalanceArray[i] = balanceArray[i];
+
+                    for (int i = 0; i < accountDetailsArray.length; i++) {
+                        newDetailsArray[i][0] = accountDetailsArray[i][0];
+                        newDetailsArray[i][1] = accountDetailsArray[i][1];
+                        newDetailsArray[i][2] = accountDetailsArray[i][2];
                     }
 
-                    newIdArray[newIdArray.length-1]= newIdArray.length;
-                    newNameArray[newNameArray.length-1] = name;
-                    newBalanceArray[newBalanceArray.length-1] = initialDeposit;
+                    newDetailsArray[newDetailsArray.length-1][0]= String.format("SDB-%05d", newDetailsArray.length);
+                    newDetailsArray[newDetailsArray.length-1][1] = name;
+                    newDetailsArray[newDetailsArray.length-1][2]= ""+ initialDeposit;
 
-                    idArray = newIdArray;
-                    nameArray = newNameArray;
-                    balanceArray = newBalanceArray;
+                    accountDetailsArray = newDetailsArray;
+
+                    for (int i = 0; i < accountDetailsArray.length; i++) {
+                        System.out.println(Arrays.toString(accountDetailsArray[i]));
+                    }
 
 
                     System.out.println();
@@ -156,190 +155,190 @@ public class Assignment1 {
                     break;
 
 
-                case DEPOSIT_MONEY:
+                // case DEPOSIT_MONEY:
 
-                    valid = true;
-                    String acNumber;
-                    int acNumberOnly=0;
+                //     valid = true;
+                //     String acNumber;
+                //     int acNumberOnly=0;
 
-                    //Enter Account number
-                    ////
-                    loop1:
-                    do {
-                        System.out.print("\tEnter A/C number :");
-                        acNumber = SCANNER.nextLine().strip();
+                //     //Enter Account number
+                //     ////
+                //     loop1:
+                //     do {
+                //         System.out.print("\tEnter A/C number :");
+                //         acNumber = SCANNER.nextLine().strip();
                         
 
-                        if (acNumber.isBlank()){
-                            System.out.printf(ERROR_MSG, "A/C number can't be empty");
-                            valid = false;
-                            continue;
-                        }
+                //         if (acNumber.isBlank()){
+                //             System.out.printf(ERROR_MSG, "A/C number can't be empty");
+                //             valid = false;
+                //             continue;
+                //         }
 
-                        if (!acNumber.startsWith("SDB-")|| acNumber.length()<5){
-                            System.out.printf(ERROR_MSG, "Invalid format");
-                            valid = false;
-                            continue;
-                        }
+                //         if (!acNumber.startsWith("SDB-")|| acNumber.length()<5){
+                //             System.out.printf(ERROR_MSG, "Invalid format");
+                //             valid = false;
+                //             continue;
+                //         }
 
-                        for (int i = 4; i < acNumber.length(); i++) {
-                            if (!Character.isDigit(acNumber.charAt(i)) ){
-                            System.out.printf(ERROR_MSG, "Invalid format");
-                            valid = false;
-                            continue loop1;
-                            }
-                        }
+                //         for (int i = 4; i < acNumber.length(); i++) {
+                //             if (!Character.isDigit(acNumber.charAt(i)) ){
+                //             System.out.printf(ERROR_MSG, "Invalid format");
+                //             valid = false;
+                //             continue loop1;
+                //             }
+                //         }
                 
-                        acNumberOnly = Integer.valueOf(acNumber.substring(4, acNumber.length()).strip());
+                //         acNumberOnly = Integer.valueOf(acNumber.substring(4, acNumber.length()).strip());
 
-                        if (acNumberOnly ==0){
-                            System.out.printf(ERROR_MSG, "Account number can't be Zero");
-                            valid = false;
-                            continue;
-                        }
+                //         if (acNumberOnly ==0){
+                //             System.out.printf(ERROR_MSG, "Account number can't be Zero");
+                //             valid = false;
+                //             continue;
+                //         }
 
-                        if (acNumberOnly >idArray.length){
-                            System.out.printf(ERROR_MSG, "Account number is not found");
-                            valid = false;
-                            continue;
-                        }
-                    ////    
-                    } while (!valid);
+                //         if (acNumberOnly >idArray.length){
+                //             System.out.printf(ERROR_MSG, "Account number is not found");
+                //             valid = false;
+                //             continue;
+                //         }
+                //     ////    
+                //     } while (!valid);
 
-                    // Current Balance
+                //     // Current Balance
 
-                    System.out.printf("\tCurrent Balance : Rs %,.2f\n" ,balanceArray[acNumberOnly-1]);
-
-
-                    // Deposit Amount
-
-                    double depositAmount=0;
-                    /////
-                    do {
-                        valid = true;
-                        System.out.print("\tDeposit Amount :");
-                        depositAmount = SCANNER.nextDouble();
-                        SCANNER.nextLine();
-
-                        if(depositAmount < 500){
-                            System.out.printf(ERROR_MSG, "In sufficint fund");
-                            valid = false;
-                            continue;                            
-                        }
-                    /////   
-                    } while (!valid);
-
-                    // New Balance
-
-                    balanceArray[acNumberOnly-1] += depositAmount;
-
-                    System.out.printf("\tNew Balance : Rs %,.2f\n" ,balanceArray[acNumberOnly-1]);
-
-                    System.out.println();
-                    System.out.printf(SUCCESS_MSG, 
-                        String.format("%s has been deposit successfully", depositAmount));
-                    System.out.print("\tDo you want to continue adding (Y/n)? ");
-                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
-                    screen = DASHBOARD;
-                    break;
+                //     System.out.printf("\tCurrent Balance : Rs %,.2f\n" ,balanceArray[acNumberOnly-1]);
 
 
-                case WITHDRAW_MONEY:
+                //     // Deposit Amount
 
-                    valid = true;
-                    acNumberOnly =0;
+                //     double depositAmount=0;
+                //     /////
+                //     do {
+                //         valid = true;
+                //         System.out.print("\tDeposit Amount :");
+                //         depositAmount = SCANNER.nextDouble();
+                //         SCANNER.nextLine();
+
+                //         if(depositAmount < 500){
+                //             System.out.printf(ERROR_MSG, "In sufficint fund");
+                //             valid = false;
+                //             continue;                            
+                //         }
+                //     /////   
+                //     } while (!valid);
+
+                //     // New Balance
+
+                //     balanceArray[acNumberOnly-1] += depositAmount;
+
+                //     System.out.printf("\tNew Balance : Rs %,.2f\n" ,balanceArray[acNumberOnly-1]);
+
+                //     System.out.println();
+                //     System.out.printf(SUCCESS_MSG, 
+                //         String.format("%s has been deposit successfully", depositAmount));
+                //     System.out.print("\tDo you want to continue adding (Y/n)? ");
+                //     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                //     screen = DASHBOARD;
+                //     break;
 
 
-                    //Enter Account number
-                    ////
-                    loop2:
-                    do {
-                        System.out.print("\tEnter A/C number :");
-                        acNumber = SCANNER.nextLine().strip();
+                // case WITHDRAW_MONEY:
+
+                //     valid = true;
+                //     acNumberOnly =0;
+
+
+                //     //Enter Account number
+                //     ////
+                //     loop2:
+                //     do {
+                //         System.out.print("\tEnter A/C number :");
+                //         acNumber = SCANNER.nextLine().strip();
                         
 
-                        if (acNumber.isBlank()){
-                            System.out.printf(ERROR_MSG, "A/C number can't be empty");
-                            valid = false;
-                            continue;
-                        }
+                //         if (acNumber.isBlank()){
+                //             System.out.printf(ERROR_MSG, "A/C number can't be empty");
+                //             valid = false;
+                //             continue;
+                //         }
 
-                        if (!acNumber.startsWith("SDB-")|| acNumber.length()<5){
-                            System.out.printf(ERROR_MSG, "Invalid format");
-                            valid = false;
-                            continue;
-                        }
+                //         if (!acNumber.startsWith("SDB-")|| acNumber.length()<5){
+                //             System.out.printf(ERROR_MSG, "Invalid format");
+                //             valid = false;
+                //             continue;
+                //         }
 
-                        for (int i = 4; i < acNumber.length(); i++) {
-                            if (!Character.isDigit(acNumber.charAt(i)) ){
-                            System.out.printf(ERROR_MSG, "Invalid format");
-                            valid = false;
-                            continue loop2;
-                            }
-                        }
+                //         for (int i = 4; i < acNumber.length(); i++) {
+                //             if (!Character.isDigit(acNumber.charAt(i)) ){
+                //             System.out.printf(ERROR_MSG, "Invalid format");
+                //             valid = false;
+                //             continue loop2;
+                //             }
+                //         }
                 
-                        acNumberOnly = Integer.valueOf(acNumber.substring(4, acNumber.length()).strip());
+                //         acNumberOnly = Integer.valueOf(acNumber.substring(4, acNumber.length()).strip());
 
-                        if (acNumberOnly ==0){
-                            System.out.printf(ERROR_MSG, "Account number can't be Zero");
-                            valid = false;
-                            continue;
-                        }
+                //         if (acNumberOnly ==0){
+                //             System.out.printf(ERROR_MSG, "Account number can't be Zero");
+                //             valid = false;
+                //             continue;
+                //         }
 
-                        if (acNumberOnly >idArray.length){
-                            System.out.printf(ERROR_MSG, "Account number is not found");
-                            valid = false;
-                            continue;
-                        }
-                    ////    
-                    } while (!valid);
+                //         if (acNumberOnly >idArray.length){
+                //             System.out.printf(ERROR_MSG, "Account number is not found");
+                //             valid = false;
+                //             continue;
+                //         }
+                //     ////    
+                //     } while (!valid);
 
-                    // Current Balance
+                //     // Current Balance
 
-                    System.out.printf("\tCurrent Balance : Rs %,.2f\n" ,balanceArray[acNumberOnly-1]);
+                //     System.out.printf("\tCurrent Balance : Rs %,.2f\n" ,balanceArray[acNumberOnly-1]);
 
 
-                    // withdraw Amount
+                //     // withdraw Amount
 
-                    double withdrawAmount = 0;
-                    double newBalance= balanceArray[acNumberOnly-1];
+                //     double withdrawAmount = 0;
+                //     double newBalance= balanceArray[acNumberOnly-1];
                     
-                    do {
-                        valid = true;
-                        System.out.print("\tWithdraw Amount :");
-                        withdrawAmount = SCANNER.nextDouble();
-                        SCANNER.nextLine();
+                //     do {
+                //         valid = true;
+                //         System.out.print("\tWithdraw Amount :");
+                //         withdrawAmount = SCANNER.nextDouble();
+                //         SCANNER.nextLine();
 
-                        if(withdrawAmount < 100){
-                            System.out.printf(ERROR_MSG, " Minimum withdraw is Rs 100");
-                            valid = false;
-                            continue;                            
-                        }
+                //         if(withdrawAmount < 100){
+                //             System.out.printf(ERROR_MSG, " Minimum withdraw is Rs 100");
+                //             valid = false;
+                //             continue;                            
+                //         }
 
-                        // new balance
-                        newBalance = balanceArray[acNumberOnly-1] - withdrawAmount;
+                //         // new balance
+                //         newBalance = balanceArray[acNumberOnly-1] - withdrawAmount;
 
-                        if (newBalance <500){
-                            System.out.printf(ERROR_MSG, " Balance is insufficient");
-                            valid = false;
-                            continue;
-                        } 
+                //         if (newBalance <500){
+                //             System.out.printf(ERROR_MSG, " Balance is insufficient");
+                //             valid = false;
+                //             continue;
+                //         } 
                       
-                    } while (!valid);
+                //     } while (!valid);
 
 
-                    balanceArray[acNumberOnly-1] = newBalance;
+                //     balanceArray[acNumberOnly-1] = newBalance;
 
 
-                    System.out.printf("\tNew Balance : Rs %,.2f\n" ,newBalance);
+                //     System.out.printf("\tNew Balance : Rs %,.2f\n" ,newBalance);
 
-                    System.out.println();
-                    System.out.printf(SUCCESS_MSG, 
-                        String.format("%s has been withdrawn successfully", withdrawAmount));
-                    System.out.print("\tDo you want to continue adding (Y/n)? ");
-                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
-                    screen = DASHBOARD;
-                    break;
+                //     System.out.println();
+                //     System.out.printf(SUCCESS_MSG, 
+                //         String.format("%s has been withdrawn successfully", withdrawAmount));
+                //     System.out.print("\tDo you want to continue adding (Y/n)? ");
+                //     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                //     screen = DASHBOARD;
+                //     break;
 
 
 
