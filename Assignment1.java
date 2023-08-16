@@ -129,21 +129,15 @@ public class Assignment1 {
                     String[][] newDetailsArray = new String[accountDetailsArray.length + 1][3];
 
 
-                    for (int i = 0; i < accountDetailsArray.length; i++) {
-                        newDetailsArray[i][0] = accountDetailsArray[i][0];
-                        newDetailsArray[i][1] = accountDetailsArray[i][1];
-                        newDetailsArray[i][2] = accountDetailsArray[i][2];
-                    }
-
                     newDetailsArray[newDetailsArray.length-1][0]= String.format("SDB-%05d", newDetailsArray.length);
                     newDetailsArray[newDetailsArray.length-1][1] = name;
                     newDetailsArray[newDetailsArray.length-1][2]= ""+ initialDeposit;
 
                     accountDetailsArray = newDetailsArray;
 
-                    for (int i = 0; i < accountDetailsArray.length; i++) {
-                        System.out.println(Arrays.toString(accountDetailsArray[i]));
-                    }
+                    // for (int i = 0; i < accountDetailsArray.length; i++) {
+                    //     System.out.println(Arrays.toString(accountDetailsArray[i]));
+                    // }
 
 
                     System.out.println();
