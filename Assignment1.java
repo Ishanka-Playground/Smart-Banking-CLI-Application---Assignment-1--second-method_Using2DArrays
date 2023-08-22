@@ -303,6 +303,14 @@ public class Assignment1 {
                     screen = DASHBOARD;
                     break;
 
+
+
+                case CHECK_AC_BALANCE :
+
+                    int checkAccount = idValidation("Enter A/C Number: ");
+                    System.out.println();
+                    System.out.printf("\tA/C Holder Name: %s\n",accountDetailsArray[checkAccount][1]);
+                    System.out.printf("\tCurrent Balance: %s\n",accountDetailsArray[checkAccount][2]);
  
             ///
             }
