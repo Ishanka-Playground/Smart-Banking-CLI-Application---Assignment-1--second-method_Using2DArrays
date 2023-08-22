@@ -128,6 +128,7 @@ public class Assignment1 {
                                 break;
                             }
                         }
+            
 
                     } while (!valid);
     
@@ -149,10 +150,16 @@ public class Assignment1 {
                     
                     String[][] newDetailsArray = new String[accountDetailsArray.length + 1][3];
 
+                    for (int i = 0; i < accountDetailsArray.length; i++) {
 
+                            newDetailsArray[i][0]= accountDetailsArray[i][0];
+                            newDetailsArray[i][1]= accountDetailsArray[i][1];
+                            newDetailsArray[i][2]= accountDetailsArray[i][2];
+                    }
+                     
                     newDetailsArray[newDetailsArray.length-1][0]= String.format("SDB-%05d", newDetailsArray.length);
                     newDetailsArray[newDetailsArray.length-1][1] = name;
-                    newDetailsArray[newDetailsArray.length-1][2]= ""+ initialDeposit;
+                    newDetailsArray[newDetailsArray.length-1][2]= initialDeposit+"";
 
                     accountDetailsArray = newDetailsArray;
 
@@ -168,7 +175,7 @@ public class Assignment1 {
 
                 case DEPOSIT_MONEY:
 
-                    int acNumberOnly= idValidation("");
+                    int acNumberOnly= idValidation("Enter A/C Number: ");
 
                     // Current Balance
 
@@ -212,7 +219,7 @@ public class Assignment1 {
 
                     // ID validation
 
-                    acNumberOnly = idValidation("Enter Account Number");
+                    acNumberOnly = idValidation("Enter Account Number : ");
 
 
                     // Current Balance
@@ -258,11 +265,11 @@ public class Assignment1 {
 
 
 
-                    System.out.printf("\tNew Balance : Rs %,.2f\n" ,accountDetailsArray[acNumberOnly-1][2]);
+                    System.out.printf("\tNew Balance : Rs %,.2f\n" ,Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]));
 
                     System.out.println();
                     System.out.printf(SUCCESS_MSG, 
-                        String.format("%s has been withdrawn successfully", withdrawAmount));
+                    String.format("%s has been withdrawn successfully", withdrawAmount));
                     System.out.print("\tDo you want to continue adding (Y/n)? ");
                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
                     screen = DASHBOARD;
@@ -271,9 +278,9 @@ public class Assignment1 {
 
                 case TRANSFER_MONEY :
                     
-                    int fromAcNumber = idValidation("Enter From A/C Number");
-                    System.out.printf( "\tFrom A/C Name : %s\n",accountDetailsArray[fromAcNumber-1][1]) ;
-                    int toAcNumber = idValidation("Enter To A/C Number");
+                    int fromAcNumber = idValidation("Enter From A/C Number: ");
+                    System.out.printf( "\tFrom A/C Name : %s\n\n",accountDetailsArray[fromAcNumber-1][1]) ;
+                    int toAcNumber = idValidation("Enter To A/C Number: ");
                     System.out.printf( "\tFrom A/C Name : %s\n\n",accountDetailsArray[toAcNumber-1][1]) ;
 
                     System.out.printf("\tFrom A/C Balance : Rs %,.2f\n" ,Double.parseDouble(accountDetailsArray[fromAcNumber-1][2]) );
@@ -310,7 +317,7 @@ public class Assignment1 {
 
         boolean valid;
         String acNumber;
-        int acNumberOnly=0;
+        int acNumberOnly = 0;
 
         //Enter Account number
         ////
