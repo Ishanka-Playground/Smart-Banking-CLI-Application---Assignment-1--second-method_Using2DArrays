@@ -100,8 +100,8 @@ public class Assignment1 {
                         valid = true;
                         
                         if (accountDetailsArray.length !=0) {
-                            System.out.printf("\tID: SDB-%05d ",accountDetailsArray.length); // automatic
-                            id = String.format("SDB-%05d", accountDetailsArray.length);
+                            System.out.printf("\tID: SDB-%05d ",accountDetailsArray.length+1); // automatic
+                            id = String.format("SDB-%05d", accountDetailsArray.length+1);
                         }  
                         else {
                             System.out.printf("\tID: SDB-%05d ",1);
@@ -168,7 +168,7 @@ public class Assignment1 {
 
                 case DEPOSIT_MONEY:
 
-                    int acNumberOnly= idValidation();
+                    int acNumberOnly= idValidation("");
 
                     // Current Balance
 
@@ -212,47 +212,53 @@ public class Assignment1 {
 
                     // ID validation
 
-                    acNumberOnly = idValidation();
+                    acNumberOnly = idValidation("Enter Account Number");
 
 
                     // Current Balance
 
-                    System.out.printf("\tCurrent Balance : Rs %,.2f\n" ,accountDetailsArray[acNumberOnly-1][2]);
+                    System.out.printf("\tCurrent Balance : Rs %,.2f\n" ,Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) );
 
 
                     // withdraw Amount
 
-                    double withdrawAmount = 0;
-                    double newBalance= Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) ;
+                    double withdrawAmount = withdrwAndTransfer(acNumberOnly, "Withdraw");
+
+
+                    // double withdrawAmount = 0;
+                    // double newBalance= Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) ;
                     
-                    do {
-                        valid = true;
-                        System.out.print("\tWithdraw Amount :");
-                        withdrawAmount = SCANNER.nextDouble();
-                        SCANNER.nextLine();
+                    // do {
+                    //     valid = true;
+                    //     System.out.print("\tWithdraw Amount :");
+                    //     withdrawAmount = SCANNER.nextDouble();
+                    //     SCANNER.nextLine();
 
-                        if(withdrawAmount < 100){
-                            System.out.printf(ERROR_MSG, " Minimum withdraw is Rs 100");
-                            valid = false;
-                            continue;                            
-                        }
+                    //     if(withdrawAmount < 100){
+                    //         System.out.printf(ERROR_MSG, " Minimum withdraw is Rs 100");
+                    //         valid = false;
+                    //         continue;                            
+                    //     }
 
-                        // new balance
-                        newBalance = Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) - withdrawAmount;
+                    //     // new balance
+                    //     newBalance = Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) - withdrawAmount;
 
-                        if (newBalance <500){
-                            System.out.printf(ERROR_MSG, " Balance is insufficient");
-                            valid = false;
-                            continue;
-                        } 
+                    //     if (newBalance <500){
+                    //         System.out.printf(ERROR_MSG, " Balance is insufficient");
+                    //         valid = false;
+                    //         continue;
+                    //     } 
                       
-                    } while (!valid);
+                    // } while (!valid);
+
+                    //double newBalance = Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) - withdrawAmount;
+
+                    //accountDetailsArray[acNumberOnly-1][2]  = newBalance + Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) + "";
+                    accountDetailsArray[acNumberOnly-1][2]  = Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) - withdrawAmount+ "";
 
 
-                    accountDetailsArray[acNumberOnly-1][2]  = newBalance + Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) + "";
 
-
-                    System.out.printf("\tNew Balance : Rs %,.2f\n" ,newBalance);
+                    System.out.printf("\tNew Balance : Rs %,.2f\n" ,accountDetailsArray[acNumberOnly-1][2]);
 
                     System.out.println();
                     System.out.printf(SUCCESS_MSG, 
@@ -261,6 +267,36 @@ public class Assignment1 {
                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
                     screen = DASHBOARD;
                     break;
+
+
+                case TRANSFER_MONEY :
+                    
+                    int fromAcNumber = idValidation("Enter From A/C Number");
+                    System.out.printf( "\tFrom A/C Name : %s\n",accountDetailsArray[fromAcNumber-1][1]) ;
+                    int toAcNumber = idValidation("Enter To A/C Number");
+                    System.out.printf( "\tFrom A/C Name : %s\n\n",accountDetailsArray[toAcNumber-1][1]) ;
+
+                    System.out.printf("\tFrom A/C Balance : Rs %,.2f\n" ,Double.parseDouble(accountDetailsArray[fromAcNumber-1][2]) );
+                    System.out.printf("\tTo A/C Balance : Rs %,.2f\n\n" ,Double.parseDouble(accountDetailsArray[toAcNumber-1][2]) );
+
+                    double transferAmount = withdrwAndTransfer(fromAcNumber, "Enter");
+
+                    accountDetailsArray[fromAcNumber-1][2]  = Double.parseDouble(accountDetailsArray[fromAcNumber-1][2])-transferAmount*1.02 + "";
+                    accountDetailsArray[toAcNumber-1][2]  = Double.parseDouble(accountDetailsArray[toAcNumber-1][2])+ transferAmount + "";
+
+                    System.out.printf("\tNew From A/C Balance : Rs %,.2f\n" ,Double.parseDouble(accountDetailsArray[fromAcNumber-1][2]) );
+                    System.out.printf("\tNew To A/C Balance : Rs %,.2f\n\n" ,Double.parseDouble(accountDetailsArray[toAcNumber-1][2]) );
+
+
+                    System.out.println();
+                    System.out.printf(SUCCESS_MSG, 
+                    String.format("%s has been transfered successfully", transferAmount));
+                    System.out.print("\tDo you want to continue adding (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = DASHBOARD;
+                    break;
+
+ 
             ///
             }
         //  
@@ -270,9 +306,9 @@ public class Assignment1 {
 
 
 
-    public static int idValidation() {
+    public static int idValidation(String value) {
 
-        boolean valid = true;
+        boolean valid;
         String acNumber;
         int acNumberOnly=0;
 
@@ -280,7 +316,10 @@ public class Assignment1 {
         ////
         loop1:
         do {
-            System.out.print("\tEnter A/C number :");
+
+            valid =true;
+        
+            System.out.printf("\t%s",value);
             acNumber = SCANNER.nextLine().strip();
             
 
@@ -326,5 +365,38 @@ public class Assignment1 {
     }
 
 
+    public static double withdrwAndTransfer (int acNumberIndex , String test) {
+
+        double amount = 0;
+        double newBalance= Double.parseDouble(accountDetailsArray[acNumberIndex-1][2]) ;
+        boolean valid;
+                    
+        do {
+            valid = true;
+            System.out.printf("\t%s Amount :",test);
+            amount = SCANNER.nextDouble();
+            SCANNER.nextLine();
+
+            if(amount < 100){
+                System.out.printf(ERROR_MSG, " Minimum withdraw is Rs 100");
+                valid = false;
+                continue;                            
+            }
+
+            // new balance
+            newBalance = Double.parseDouble(accountDetailsArray[acNumberIndex-1][2]) - amount;
+
+            if (newBalance <500){
+                System.out.printf(ERROR_MSG, " Balance is insufficient");
+                valid = false;
+                continue;
+            } 
+            
+        } while (!valid);
+
+        return amount;
+
+
+    }
 
 }
