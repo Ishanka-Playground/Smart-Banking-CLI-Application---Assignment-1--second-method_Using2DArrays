@@ -282,21 +282,13 @@ public class Assignment1 {
                     System.out.print("\tDo you want to delete (Y/n)? ");
                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) {
 
-                        String [][] deleteArray = new String[accountDetailsArray.length-1][];
+                        accountDetailsArray[deleteAc-1][0] = "delete";
+                        accountDetailsArray[deleteAc-1][1] = "delete";
+                        accountDetailsArray[deleteAc-1][2] = "delete";
 
-                        for (int i = 0, j=0; i < deleteArray.length; i++ ,j++) {
-                            if (i == deleteAc-1) {
-                                j++;
-                                continue;
-                            }
 
-                            deleteArray[i][0]= accountDetailsArray[j][0];
-                            deleteArray[i][1]= accountDetailsArray[j][1];
-                            deleteArray[i][2]= accountDetailsArray[j][2];
-                            
-                        }
 
-                        accountDetailsArray = deleteArray;
+                    
                         
                     }else {
                         screen = DASHBOARD;
@@ -306,7 +298,7 @@ public class Assignment1 {
                     System.out.println();
                     System.out.printf(SUCCESS_MSG, 
                     String.format("%s has been deleted successfully", deletedAccount));
-                    System.out.print("\tDo you want to continue adding (Y/n)? ");
+                    System.out.print("\tDo you want to continue deleting (Y/n)? ");
                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
                     screen = DASHBOARD;
                     break;
@@ -367,6 +359,12 @@ public class Assignment1 {
                 valid = false;
                 continue;
             }
+            if (accountDetailsArray[acNumberOnly-1][0] == "delete"){
+                System.out.printf(ERROR_MSG, "This account was deleted");
+                valid = false;
+                continue;
+            }
+            
 
         ////    
         } while (!valid);
@@ -377,7 +375,7 @@ public class Assignment1 {
 
 
 
-    
+
     public static double withdrwAndTransfer (int acNumberIndex , String test) {
 
         double amount = 0;
