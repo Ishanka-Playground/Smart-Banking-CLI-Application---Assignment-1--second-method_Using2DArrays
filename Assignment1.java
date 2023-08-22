@@ -28,27 +28,8 @@ public class Assignment1 {
     static String [][] accountDetailsArray = new String[0][3]; // {{id,name,balance},{},{}}
 
     public static void main(String[] args) {
-        final String CLEAR = "\033[H\033[2J";
-        final String COLOR_BLUE_BOLD = "\033[34;1m";
-        final String COLOR_RED_BOLD = "\033[31;1m";
-        final String COLOR_GREEN_BOLD = "\033[33;1m";
-        final String RESET = "\033[0m";
-
-        final String DASHBOARD = "Welcome to Smart Banking App";
-        final String ADD_ACCOUNT = "Open New Account";
-        final String DEPOSIT_MONEY = "Deposit Money";
-        final String WITHDRAW_MONEY = "Withdraw Money";
-        final String TRANSFER_MONEY = "Transfer Money";
-        final String CHECK_AC_BALANCE = "Check Account Balance";
-        final String DROP_EXISTING_AC = "Drop Existing Account";
-
-        final String ERROR_MSG = String.format("\t%s%s%s\n", COLOR_RED_BOLD, "%s", RESET);
-        final String SUCCESS_MSG = String.format("\t%s%s%s\n", COLOR_GREEN_BOLD, "%s", RESET);
 
         String screen = DASHBOARD;
-
-
-  
 
         //
         do {
@@ -232,35 +213,6 @@ public class Assignment1 {
                     double withdrawAmount = withdrwAndTransfer(acNumberOnly, "Withdraw");
 
 
-                    // double withdrawAmount = 0;
-                    // double newBalance= Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) ;
-                    
-                    // do {
-                    //     valid = true;
-                    //     System.out.print("\tWithdraw Amount :");
-                    //     withdrawAmount = SCANNER.nextDouble();
-                    //     SCANNER.nextLine();
-
-                    //     if(withdrawAmount < 100){
-                    //         System.out.printf(ERROR_MSG, " Minimum withdraw is Rs 100");
-                    //         valid = false;
-                    //         continue;                            
-                    //     }
-
-                    //     // new balance
-                    //     newBalance = Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) - withdrawAmount;
-
-                    //     if (newBalance <500){
-                    //         System.out.printf(ERROR_MSG, " Balance is insufficient");
-                    //         valid = false;
-                    //         continue;
-                    //     } 
-                      
-                    // } while (!valid);
-
-                    //double newBalance = Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) - withdrawAmount;
-
-                    //accountDetailsArray[acNumberOnly-1][2]  = newBalance + Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) + "";
                     accountDetailsArray[acNumberOnly-1][2]  = Double.parseDouble(accountDetailsArray[acNumberOnly-1][2]) - withdrawAmount+ "";
 
 
@@ -305,12 +257,14 @@ public class Assignment1 {
 
 
 
+
                 case CHECK_AC_BALANCE :
 
                     int checkAccount = idValidation("Enter A/C Number: ");
                     System.out.println();
                     System.out.printf("\tA/C Holder Name: %s\n",accountDetailsArray[checkAccount-1][1]);
                     System.out.printf("\tCurrent Balance: %s\n",accountDetailsArray[checkAccount-1][2]);
+
 
 
 
@@ -357,9 +311,8 @@ public class Assignment1 {
                     screen = DASHBOARD;
                     break;
 
-            ///
             }
-        //  
+  
         } while (true);     
     }
 
@@ -372,8 +325,6 @@ public class Assignment1 {
         String acNumber;
         int acNumberOnly = 0;
 
-        //Enter Account number
-        ////
         loop1:
         do {
 
@@ -425,6 +376,8 @@ public class Assignment1 {
     }
 
 
+
+    
     public static double withdrwAndTransfer (int acNumberIndex , String test) {
 
         double amount = 0;
