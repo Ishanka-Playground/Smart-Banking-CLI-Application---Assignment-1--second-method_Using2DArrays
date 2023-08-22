@@ -309,9 +309,54 @@ public class Assignment1 {
 
                     int checkAccount = idValidation("Enter A/C Number: ");
                     System.out.println();
-                    System.out.printf("\tA/C Holder Name: %s\n",accountDetailsArray[checkAccount][1]);
-                    System.out.printf("\tCurrent Balance: %s\n",accountDetailsArray[checkAccount][2]);
- 
+                    System.out.printf("\tA/C Holder Name: %s\n",accountDetailsArray[checkAccount-1][1]);
+                    System.out.printf("\tCurrent Balance: %s\n",accountDetailsArray[checkAccount-1][2]);
+
+
+
+                case DROP_EXISTING_AC :
+
+                    int deleteAc = idValidation("Enter A/C Number: ");
+                    System.out.println();
+                    System.out.printf("\tA/C Holder Name: %s\n",accountDetailsArray[deleteAc-1][1]);
+                    System.out.printf("\tCurrent Balance: %s\n",accountDetailsArray[deleteAc-1][2]);
+
+                    
+                    String deletedAccount = accountDetailsArray[deleteAc-1][0];
+
+
+                    System.out.print("\tDo you want to delete (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) {
+
+                        String [][] deleteArray = new String[accountDetailsArray.length-1][];
+
+                        for (int i = 0, j=0; i < deleteArray.length; i++ ,j++) {
+                            if (i == deleteAc-1) {
+                                j++;
+                                continue;
+                            }
+
+                            deleteArray[i][0]= accountDetailsArray[j][0];
+                            deleteArray[i][1]= accountDetailsArray[j][1];
+                            deleteArray[i][2]= accountDetailsArray[j][2];
+                            
+                        }
+
+                        accountDetailsArray = deleteArray;
+                        
+                    }else {
+                        screen = DASHBOARD;
+                        break;
+                    }
+
+                    System.out.println();
+                    System.out.printf(SUCCESS_MSG, 
+                    String.format("%s has been deleted successfully", deletedAccount));
+                    System.out.print("\tDo you want to continue adding (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = DASHBOARD;
+                    break;
+
             ///
             }
         //  
